@@ -9,16 +9,11 @@ import UIKit
 
 class MovieListVC: UIViewController {
     
-    var movieName: String = ""
-    
+    var movieName = ""
     var moviesArray: [String] = []
-    
     var movieArtworkArray: [String] = []
-    
     var movieImage = UIImage()
-    
     var movieImages: [UIImage] = []
-    
     var networkManager = NetworkManager()
     
     let tableView = UITableView()
@@ -26,53 +21,51 @@ class MovieListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Results"
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
+        
+        // Configure tableView
+        tableView.rowHeight = 120
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: MovieCell.reuseID)
         tableView.frame = view.bounds
         tableView.delegate = self
         tableView.dataSource = self
-        configureViewController()
+        
         fetch(movieName: movieName)
     }
- 
-    func configureViewController() {
-        view.backgroundColor = .systemBackground
-        navigationController?.navigationBar.prefersLargeTitles = true
-        tableView.rowHeight = 120
-    }
     
-    // make the network call using the movie name passed in
     func fetch(movieName: String) {
         
         networkManager.fetch(movieName: movieName) { [weak self] result in
-        
+            
             guard let self = self else { return }
             
             switch result {
-                case .success(let movies):
-                    DispatchQueue.main.async {
-                        var names: [String] = []
-                        for result in movies.results {
-                            names.append(result.trackName)
-                        }
-                        self.moviesArray = names
-                        print("names is \(names)")
-                        
-                        var imagesURLs: [String] = []
-                        for result in movies.results {
-                            imagesURLs.append(result.artworkUrl100)
-                        }
-                        print(imagesURLs)
-                        self.movieArtworkArray = imagesURLs
-                  
-                        self.tableView.reloadData()
+            case .success(let movies):
+                DispatchQueue.main.async {
+                    var names: [String] = []
+                    for result in movies.results {
+                        names.append(result.trackName)
                     }
-                    case .failure(let error): // failure case presents the error
-                        let alertController = UIAlertController(title: "\(error)", message: "Please try again.", preferredStyle: .alert)
-                        let actionTitle = NSLocalizedString("Ok", comment: "")
-                        alertController.addAction(.init(title: actionTitle, style: .default, handler: nil))
-                        alertController.present(alertController, animated: true, completion: nil)
-                        return
+                    self.moviesArray = names
+                    print("names is \(names)")
+                    
+                    var imagesURLs: [String] = []
+                    for result in movies.results {
+                        imagesURLs.append(result.artworkUrl100)
+                    }
+                    print(imagesURLs)
+                    self.movieArtworkArray = imagesURLs
+                    
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                let alertController = UIAlertController(title: "\(error)", message: "Please try again.", preferredStyle: .alert)
+                let actionTitle = NSLocalizedString("Ok", comment: "")
+                alertController.addAction(.init(title: actionTitle, style: .default, handler: nil))
+                alertController.present(alertController, animated: true, completion: nil)
+                return
             }
         }
     }
@@ -100,7 +93,7 @@ extension MovieListVC: UITableViewDataSource {
             }
             
             let task = URLSession.shared.dataTask(with: finalUrl) { data, response, error in
-
+                
                 guard error == nil else {
                     completion(.failure(NetworkManager.FetchError.network(error!)))
                     return
@@ -126,12 +119,12 @@ extension MovieListVC: UITableViewDataSource {
                     DispatchQueue.main.async {
                         self.movieImage = image
                         self.tableView.reloadData()
-                        }
-                    completion(.success(image))
-                    } catch {
-                    completion(.failure(NetworkManager.FetchError.invalidData))
                     }
+                    completion(.success(image))
+                } catch {
+                    completion(.failure(NetworkManager.FetchError.invalidData))
                 }
+            }
             task.resume()
         }
         
@@ -142,26 +135,23 @@ extension MovieListVC: UITableViewDataSource {
                 guard let self = self else { return } // the reference to self is a weak one which makes it an optional so this line unwraps the optional
                 
                 switch result {
-                    case .success(let image):
-                        DispatchQueue.main.async {
-                            self.movieImage = image
-                            self.tableView.reloadData()
-                        }
-                        case .failure(let error):
-                            print(error)
-                            return
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.movieImage = image
+                        self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+                    return
                 }
             }
         }
-
-        // get the configuration
+        
         var content = cell.defaultContentConfiguration()
         
-        // configure content
         content.text = moviesArray[indexPath.row]
         content.image = movieImage
         
-        // assign content to the view as the current content configuration
         cell.contentConfiguration = content
         return cell
     }

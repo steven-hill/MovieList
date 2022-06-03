@@ -38,5 +38,4 @@ class TextField: UITextField {
         clearButtonMode = .whileEditing
         placeholder = "Enter a movie name"
     }
-    
 }

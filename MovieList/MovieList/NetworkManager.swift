@@ -10,7 +10,6 @@ import UIKit
 
 class NetworkManager {
     
-    
     enum FetchError: Error {
         case invalidURL
         case network(Error)
@@ -20,12 +19,10 @@ class NetworkManager {
         case invalidJSON(Error)
     }
     
-    
     func fetch(movieName: String, completion: @escaping (Swift.Result<MovieSearch, FetchError>) -> Void) {
         
         let url = "https://itunes.apple.com/search?term=\(movieName)&entity=movie"
-        
-        // check we have a valid URL
+      
         guard let finalUrl = URL(string: url) else {
             completion(.failure(FetchError.invalidURL))
             return
@@ -33,7 +30,6 @@ class NetworkManager {
         
         let task = URLSession.shared.dataTask(with: finalUrl) { data, response, error in
             
-            // error, response, data, decode
             guard error == nil else {
                 completion(.failure(FetchError.network(error!)))
                 return
@@ -68,6 +64,5 @@ class NetworkManager {
         }
         task.resume()
     }
-                        
 }
         

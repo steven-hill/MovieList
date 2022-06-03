@@ -12,7 +12,7 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = .systemPurple
-        viewControllers = [createSearchVC(), createFavouritesVC()]
+        viewControllers = [createSearchVC(), createFavouritesListVC()]
     }
     
     func createSearchVC() -> UINavigationController {
@@ -22,7 +22,7 @@ class TabBarController: UITabBarController {
         return UINavigationController(rootViewController: searchVC)
     }
     
-    func createFavouritesVC() -> UINavigationController {
+    func createFavouritesListVC() -> UINavigationController {
         let favouritesListVC = FavouritesVC()
         favouritesListVC.title = "Favourites"
         favouritesListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
