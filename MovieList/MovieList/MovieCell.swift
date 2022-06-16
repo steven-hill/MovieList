@@ -60,5 +60,4 @@ class MovieCell: UITableViewCell {
             movieName.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -padding)
         ])
     }
-
 }

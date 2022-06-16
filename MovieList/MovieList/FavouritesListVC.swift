@@ -11,7 +11,6 @@ class FavouritesVC: UIViewController {
     
     let tableView = UITableView()
     
-    // dummy data
     var array: [String] = ["Shawshank Redemption", "Star Wars: Return of the Jedi", "The Batman", "Gravity"]
     
     override func viewDidLoad() {
@@ -24,7 +23,6 @@ class FavouritesVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-
 }
 
 //MARK: - TableView Data Source Methods
@@ -35,23 +33,17 @@ extension FavouritesVC: UITableViewDataSource {
         return array.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        // get the configuration
         var content = cell.defaultContentConfiguration()
-        
-        // configure content
+
         content.text = array[indexPath.row]
-        
-        
-        // assign content to the view as the current content configuration
+
         cell.contentConfiguration = content
         
         return cell
     }
-    
 }
 
 
@@ -62,5 +54,4 @@ extension FavouritesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
 }
