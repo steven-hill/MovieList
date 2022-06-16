@@ -17,10 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        window = UIWindow(frame: windowScene.coordinateSpace.bounds) // make it fill the whole screen
-        window?.windowScene = windowScene // every window has a windowScene. Assign the window to the above windowScene
-        window?.rootViewController = TabBarController() // TabBarController is the initial VC
-        window?.makeKeyAndVisible() // shows the window
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = TabBarController()
+        window?.makeKeyAndVisible()
     }
 }
 

@@ -37,25 +37,29 @@ class SearchVC: UIViewController {
 
     func pushMovieListVC() {
         
-        guard isTextEntered == true else { // text validation - did the user enter a username?
-            let alertController = UIAlertController(title: "A movie name hasn't been entered", message: "Please enter a movie name.", preferredStyle: .alert)
-            let actionTitle = NSLocalizedString("Ok", comment: "")
-            alertController.addAction(.init(title: actionTitle, style: .default, handler: nil))
-            alertController.present(alertController, animated: true, completion: nil)
+        guard isTextEntered else {
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(title: "A movie name hasn't been entered", message: "Please enter a movie name.", preferredStyle: .alert)
+                let actionTitle = NSLocalizedString("Ok", comment: "")
+                alertController.addAction(.init(title: actionTitle, style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+            }
             return
         }
-        // Yes, a username was entered, so continue
-        let movieListVC = MovieListVC() // create the object
         
-        let movieNameEntered = searchTextField.text!
-        var finalMovieName = movieNameEntered
-        
-        if movieNameEntered.contains(" ") {
-            finalMovieName = movieNameEntered.replacingOccurrences(of: " ", with: "+")
+        // Prepare user query.
+        let userQueryText = searchTextField.text!
+        var userQueryPreparedString = userQueryText
+        if userQueryText.contains(" ") {
+            userQueryPreparedString = userQueryText.replacingOccurrences(of: " ", with: "+")
         }
-        
+
+        // Push MovieListVC.
+        let movieListCoordinator = MovieListCoordinator(userQueryString: userQueryPreparedString)
+        let movieListVC = MovieListVC(delegate: movieListCoordinator)
+        movieListCoordinator.movieController = movieListVC
+
         movieListVC.title = "Results"
-        movieListVC.movieName = finalMovieName
         navigationController?.pushViewController(movieListVC, animated: true)
     }
 }
@@ -64,6 +68,7 @@ extension SearchVC: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         pushMovieListVC()
+        searchTextField.text = ""
         return true
     }
 }
