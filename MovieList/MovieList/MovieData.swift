@@ -9,11 +9,11 @@ import Foundation
 
 // MARK: - MovieSearch
 struct MovieSearch: Codable {
-    let results: [Result]
+    let results: [MovieResult]
 }
 
-// MARK: - Result
-struct Result: Codable {
+// MARK: - MovieResult
+struct MovieResult: Codable {
     let trackName: String
     let artworkUrl100: String
 }
