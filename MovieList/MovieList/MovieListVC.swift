@@ -8,19 +8,18 @@
 import UIKit
 
 protocol MovieListVCDelegate {
-    var movieNames: [String] { get }
+    var movieNames: [String] { get set }
 
-    var movieImages: [UIImage] { get }
+    var movieImages: [Int: UIImage] { get set }
 
     func viewDidAppear()
 
-    func fetchImageForMovie(at position: Int,
-                            completionHandler: @escaping (Swift.Result<UIImage, Error>) -> Void)
+    func fetchImageForMovie(at position: Int) async throws -> UIImage
 }
 
 class MovieListVC: UIViewController {
 
-    let delegate: MovieListVCDelegate!
+    var delegate: MovieListVCDelegate!
 
     init(delegate: MovieListVCDelegate) {
         self.delegate = delegate
@@ -74,26 +73,27 @@ extension MovieListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return delegate.movieNames.count
     }
-    
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if delegate.movieImages[indexPath.row] == nil {
+            Task {
+                do {
+                    let imageForMovie = try await delegate.fetchImageForMovie(at: indexPath.row)
+                    delegate.movieImages[indexPath.row] = imageForMovie
+                    tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            }
+        }
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reuseID, for: indexPath)
 
-        let movieNames = delegate.movieNames
-
         var content = cell.defaultContentConfiguration()
-        content.text = movieNames[indexPath.row]
-
-        delegate.fetchImageForMovie(at: indexPath.row) { imageFetchResult in
-            DispatchQueue.main.async {
-                guard case .success(let imageFromFetch) = imageFetchResult else {
-                    content.image = UIImage(systemName: "photo")
-                    return
-                }
-                content.image = imageFromFetch
-            }
-        }
-        
+        content.text = delegate.movieNames[indexPath.row]
+        content.image = delegate.movieImages[indexPath.row] ?? UIImage(systemName: "photo")
         cell.contentConfiguration = content
+
         return cell
     }
 }
@@ -107,4 +107,3 @@ extension MovieListVC: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-

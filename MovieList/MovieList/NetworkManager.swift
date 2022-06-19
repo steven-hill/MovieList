@@ -8,15 +8,6 @@
 import Foundation
 import UIKit
 
-protocol NetworkManagerDelegate {
-
-    func updateMovies(movieSearch: MovieSearch)
-    
-    func movieSearchError(error: NetworkManager.FetchError)
-    
-    func updateImages(images: [UIImage])
-}
-
 class NetworkManager {
     
     enum FetchError: Error {
@@ -27,8 +18,7 @@ class NetworkManager {
         case invalidData
         case invalidJSON(Error)
     }
-    
-    var delegate: NetworkManagerDelegate?
+
     private var imageURLs: [String] = []
 
     func fetch(movieName: String, completion: @escaping (Swift.Result<MovieSearch, NetworkManager.FetchError>) -> Void) {
@@ -36,8 +26,7 @@ class NetworkManager {
         let url = "https://itunes.apple.com/search?term=\(movieName)&entity=movie"
         
         guard let finalUrl = URL(string: url) else {
-            let error = FetchError.invalidURL
-            self.delegate?.movieSearchError(error: error)
+            completion(.failure(FetchError.invalidURL))
             return
         }
         
@@ -45,28 +34,21 @@ class NetworkManager {
             
             guard error == nil else {
                 let error = FetchError.network(error!)
-                self.delegate?.movieSearchError(error: error)
                 completion(.failure(FetchError.network(error)))
                 return
             }
             
             guard let response = response as? HTTPURLResponse else {
-                let error = FetchError.missingResponse
-                self.delegate?.movieSearchError(error: error)
                 completion(.failure(FetchError.missingResponse))
                 return
             }
             
             guard (200...299).contains(response.statusCode) else {
-                let error = FetchError.unexpectedResponse(response.statusCode)
-                self.delegate?.movieSearchError(error: error)
                 completion(.failure(FetchError.unexpectedResponse(response.statusCode)))
                 return
             }
             
             guard let receivedData = data else {
-                let error = FetchError.invalidData
-                self.delegate?.movieSearchError(error: error)
                 completion(.failure(FetchError.invalidData))
                 return
             }
@@ -74,7 +56,6 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let receivedMovieSearch = try decoder.decode(MovieSearch.self, from: receivedData)
-                self.delegate?.updateMovies(movieSearch: receivedMovieSearch)
                 completion(.success(receivedMovieSearch))
 
                 for result in receivedMovieSearch.results {
@@ -82,7 +63,6 @@ class NetworkManager {
                 }
 
             } catch {
-                self.delegate?.movieSearchError(error: FetchError.invalidJSON(error))
                 completion(.failure(FetchError.invalidJSON(error)))
             }
         }
