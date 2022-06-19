@@ -21,7 +21,7 @@ class NetworkManager {
 
     private var imageURLs: [String] = []
 
-    func fetch(movieName: String, completion: @escaping (Swift.Result<MovieSearch, NetworkManager.FetchError>) -> Void) {
+    func fetch(movieName: String, completion: @escaping (Result<MovieSearch, NetworkManager.FetchError>) -> Void) {
         
         let url = "https://itunes.apple.com/search?term=\(movieName)&entity=movie"
         
