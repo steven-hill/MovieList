@@ -8,13 +8,15 @@
 import UIKit
 
 protocol MovieListVCDelegate {
-    var movieNames: [String] { get set }
+    var movies: [MovieResult] { get set }
 
     var movieImages: [Int: UIImage] { get set }
 
     func viewDidAppear()
 
     func fetchImageForMovie(at position: Int) async throws -> UIImage
+
+    func didSelectRow(at: Int)
 }
 
 class MovieListVC: UIViewController {
@@ -58,7 +60,7 @@ class MovieListVC: UIViewController {
     func updateUI() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            if self.delegate.movieNames.count > 0 {
+            if self.delegate.movies.count > 0 {
                 self.dismissLoadingView()
             }
         }
@@ -71,7 +73,7 @@ class MovieListVC: UIViewController {
 extension MovieListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return delegate.movieNames.count
+        return delegate.movies.count
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -90,10 +92,10 @@ extension MovieListVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reuseID, for: indexPath)
 
         var content = cell.defaultContentConfiguration()
-        content.text = delegate.movieNames[indexPath.row]
+        content.text = delegate.movies[indexPath.row].trackName
         content.image = delegate.movieImages[indexPath.row] ?? UIImage(systemName: "photo")
         cell.contentConfiguration = content
-
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
 }
@@ -105,5 +107,6 @@ extension MovieListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        delegate.didSelectRow(at: indexPath.row)
     }
 }

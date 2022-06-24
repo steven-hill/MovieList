@@ -12,7 +12,7 @@ class MovieListCoordinator {
     let userQueryString: String
     let networkManager = NetworkManager()
 
-    var movieNames: [String] = []
+    var movies: [MovieResult] = []
     var movieImages: [Int: UIImage] = [:]
     var movieController: MovieListVC!
 
@@ -26,7 +26,7 @@ extension MovieListCoordinator: MovieListVCDelegate {
         networkManager.fetch(movieName: userQueryString) { fetchResult in
             switch fetchResult {
                 case .success(let receivedMovieSearch):
-                    self.movieNames = receivedMovieSearch.results.map { $0.trackName }
+                    self.movies = receivedMovieSearch.results
                     self.movieController.updateUI()
 
                 case .failure(_):
@@ -46,5 +46,11 @@ extension MovieListCoordinator: MovieListVCDelegate {
                 continuation.resume(throwing: fetchError)
             }
         })
+    }
+    
+    func didSelectRow(at: Int) {
+        guard movies.count > at else { return }
+        let movieDetailVC = MovieDetailVC(movie: movies[at])
+        movieController.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }

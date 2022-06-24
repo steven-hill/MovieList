@@ -16,4 +16,8 @@ struct MovieSearch: Codable {
 struct MovieResult: Codable {
     let trackName: String
     let artworkUrl100: String
+    let primaryGenreName: String
+    let longDescription: String
+    let releaseDate: String
+    let previewUrl: String
 }
