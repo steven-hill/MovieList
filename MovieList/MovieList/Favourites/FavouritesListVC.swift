@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavouritesVC: UIViewController {
+class FavouritesListVC: UIViewController {
     
     let tableView = UITableView()
     
@@ -27,7 +27,7 @@ class FavouritesVC: UIViewController {
 
 //MARK: - TableView Data Source Methods
 
-extension FavouritesVC: UITableViewDataSource {
+extension FavouritesListVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return array.count
@@ -49,7 +49,7 @@ extension FavouritesVC: UITableViewDataSource {
 
 //MARK: - TableView Delegate Methods
 
-extension FavouritesVC: UITableViewDelegate {
+extension FavouritesListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
