@@ -58,18 +58,18 @@ class MovieDetailVC: UIViewController {
         NSLayoutConstraint.activate([
             playerView.leadingAnchor.constraint(equalTo: playerContainerView.leadingAnchor),
             playerView.trailingAnchor.constraint(equalTo: playerContainerView.trailingAnchor),
-            playerView.heightAnchor.constraint(equalTo: playerContainerView.heightAnchor, multiplier: 16/9),
+            playerView.heightAnchor.constraint(equalTo: playerContainerView.heightAnchor),
             playerView.centerYAnchor.constraint(equalTo: playerContainerView.centerYAnchor)
         ])
     }
  
     private let playButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
-        button.contentVerticalAlignment = .fill
-        button.contentHorizontalAlignment = .fill
-        button.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-        return button
+        let playButton = UIButton()
+        playButton.setImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+        playButton.contentVerticalAlignment = .fill
+        playButton.contentHorizontalAlignment = .fill
+        playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        return playButton
     }()
     
     @objc func playButtonTapped() {
@@ -90,14 +90,14 @@ class MovieDetailVC: UIViewController {
     func setUpPlayButton() {
         playButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            playButton.centerYAnchor.constraint(equalTo: playerView.centerYAnchor, constant: 50),
+            playButton.centerYAnchor.constraint(equalTo: playerView.centerYAnchor),
             playButton.centerXAnchor.constraint(equalTo: playerView.centerXAnchor),
             playButton.heightAnchor.constraint(equalToConstant: 100),
             playButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     
-    private let movieImage: UIImageView = {
+    let movieImage: UIImageView = {
         let movieImage = UIImageView()
         movieImage.image = UIImage(systemName: "photo")
         movieImage.contentMode = .scaleAspectFit
@@ -110,7 +110,7 @@ class MovieDetailVC: UIViewController {
         let movieName = UILabel()
         movieName.font = UIFont.boldSystemFont(ofSize: 16)
         movieName.textAlignment = .left
-        movieName.text = "Movie name"
+        movieName.text = ""
         movieName.numberOfLines = 1
         movieName.adjustsFontSizeToFitWidth = true
         return movieName
@@ -120,7 +120,7 @@ class MovieDetailVC: UIViewController {
         let movieGenre = UILabel()
         movieGenre.font = UIFont.boldSystemFont(ofSize: 16)
         movieGenre.textAlignment = .left
-        movieGenre.text = "Movie genre"
+        movieGenre.text = ""
         movieGenre.numberOfLines = 1
         movieGenre.adjustsFontSizeToFitWidth = true
         return movieGenre
@@ -130,7 +130,7 @@ class MovieDetailVC: UIViewController {
         let movieReleaseDate = UILabel()
         movieReleaseDate.font = UIFont.boldSystemFont(ofSize: 16)
         movieReleaseDate.textAlignment = .left
-        movieReleaseDate.text = "Movie release date"
+        movieReleaseDate.text = ""
         movieReleaseDate.numberOfLines = 1
         movieReleaseDate.adjustsFontSizeToFitWidth = true
         return movieReleaseDate
@@ -140,14 +140,18 @@ class MovieDetailVC: UIViewController {
         let movieDescription = UILabel()
         movieDescription.font = UIFont.boldSystemFont(ofSize: 16)
         movieDescription.textAlignment = .left
-        movieDescription.text = "Movie description"
-        movieDescription.numberOfLines = 10
+        movieDescription.text = ""
+        movieDescription.numberOfLines = 14
+        movieDescription.adjustsFontSizeToFitWidth = true
         return movieDescription
     }()
     
     private let favouritesButton: UIButton = {
         let favouritesButton = UIButton()
         favouritesButton.setTitle("Add to favourites", for: .normal)
+        favouritesButton.backgroundColor = .systemPurple
+        favouritesButton.setTitleColor(.black, for: .normal)
+        favouritesButton.layer.cornerRadius = 10
         favouritesButton.addTarget(self, action: #selector(favouritesButtonTapped), for: .touchUpInside)
         return favouritesButton
     }()
@@ -174,11 +178,12 @@ class MovieDetailVC: UIViewController {
         let padding: CGFloat = 8
         
         NSLayoutConstraint.activate([
-            movieImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            movieImage.topAnchor.constraint(equalTo: playerView.bottomAnchor, constant: 20),
             movieImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             movieImage.heightAnchor.constraint(equalToConstant: 100),
             movieImage.widthAnchor.constraint(equalToConstant: 67),
             
+            movieName.topAnchor.constraint(equalTo: movieImage.topAnchor),
             movieName.leadingAnchor.constraint(equalTo: movieImage.trailingAnchor, constant: 20),
             movieName.heightAnchor.constraint(equalToConstant: 20),
             movieName.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
@@ -197,21 +202,23 @@ class MovieDetailVC: UIViewController {
             movieDescription.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             movieDescription.topAnchor.constraint(equalTo: movieReleaseDate.bottomAnchor, constant: 20),
             movieDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-            movieDescription.heightAnchor.constraint(equalToConstant: 180),
+            movieDescription.heightAnchor.constraint(equalToConstant: 200),
             movieDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
             
             favouritesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            favouritesButton.topAnchor.constraint(equalTo: movieDescription.bottomAnchor, constant: 30),
+            favouritesButton.topAnchor.constraint(equalTo: movieDescription.bottomAnchor, constant: 15),
             favouritesButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            favouritesButton.heightAnchor.constraint(equalToConstant: 20),
-            favouritesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            favouritesButton.heightAnchor.constraint(equalToConstant: 40),
+            favouritesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
         ])
     }
     
     func updateUI() {
-        movieName.text = movie.trackName
-        movieGenre.text = movie.primaryGenreName
-        movieReleaseDate.text = movie.releaseDate
-        movieDescription.text = movie.longDescription
+        DispatchQueue.main.async {
+            self.movieName.text = self.movie.trackName
+            self.movieGenre.text = self.movie.primaryGenreName
+            self.movieReleaseDate.text = self.movie.releaseDate
+            self.movieDescription.text = self.movie.longDescription
+        }
     }
 }

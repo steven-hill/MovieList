@@ -51,6 +51,7 @@ extension MovieListCoordinator: MovieListVCDelegate {
     func didSelectRow(at: Int) {
         guard movies.count > at else { return }
         let movieDetailVC = MovieDetailVC(movie: movies[at])
+        movieDetailVC.movieImage.image = movieImages[at]
         movieController.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
 }

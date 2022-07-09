@@ -69,7 +69,6 @@ class NetworkManager {
         task.resume()
     }
     
-    
     func getImage(at position: Int) -> UIImage? {
         guard position >= 0, position < imageURLs.endIndex else {
             return nil
@@ -78,7 +77,6 @@ class NetworkManager {
         let preparedURL = URL(string: imageURLs[position])!
         guard let imageData = try? Data(contentsOf: preparedURL),
               let loadedImage = UIImage(data: imageData) else { return nil }
-
         return loadedImage
     }
 }
