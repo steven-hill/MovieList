@@ -15,6 +15,8 @@ class MovieListCoordinator {
     var movies: [MovieResult] = []
     var movieImages: [Int: UIImage] = [:]
     var movieController: MovieListVC!
+    
+    let child = SpinnerVC()
 
     init(userQueryString: String) {
         self.userQueryString = userQueryString
@@ -53,5 +55,27 @@ extension MovieListCoordinator: MovieListVCDelegate {
         let movieDetailVC = MovieDetailVC(movie: movies[at])
         movieDetailVC.movieImage.image = movieImages[at]
         movieController.navigationController?.pushViewController(movieDetailVC, animated: true)
+    }
+    
+    //MARK: - SpinnerView Methods
+    
+    func configureSpinnerView() {
+        let child = child
+        child.loadView()
+    }
+    
+    func createSpinnerView() {
+        movieController.addChild(child)
+        child.view.frame = movieController.view.frame
+        movieController.view.addSubview(child.view)
+        child.didMove(toParent: movieController)
+    }
+    
+    func removeSpinnerView() {
+        DispatchQueue.main.async {
+            self.child.willMove(toParent: nil)
+            self.child.view.removeFromSuperview()
+            self.child.removeFromParent()
+        }
     }
 }

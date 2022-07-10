@@ -17,6 +17,12 @@ protocol MovieListVCDelegate {
     func fetchImageForMovie(at position: Int) async throws -> UIImage
 
     func didSelectRow(at: Int)
+    
+    func configureSpinnerView()
+    
+    func createSpinnerView()
+    
+    func removeSpinnerView()
 }
 
 class MovieListVC: UIViewController {
@@ -33,7 +39,7 @@ class MovieListVC: UIViewController {
     }
 
     let tableView = UITableView()
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Results"
@@ -48,21 +54,19 @@ class MovieListVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
 
-        showLoadingView()
+        delegate.configureSpinnerView()
+        delegate.createSpinnerView()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         delegate.viewDidAppear()
     }
 
     func updateUI() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            if self.delegate.movies.count > 0 {
-                self.dismissLoadingView()
-            }
+            self.delegate.removeSpinnerView()
         }
     }
 }
