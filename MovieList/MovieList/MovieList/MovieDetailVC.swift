@@ -217,7 +217,7 @@ class MovieDetailVC: UIViewController {
         DispatchQueue.main.async {
             self.movieName.text = self.movie.trackName
             self.movieGenre.text = self.movie.primaryGenreName
-            self.movieReleaseDate.text = self.movie.releaseDate
+            self.movieReleaseDate.text = String(self.movie.releaseDate.prefix(4))
             self.movieDescription.text = self.movie.longDescription
         }
     }
