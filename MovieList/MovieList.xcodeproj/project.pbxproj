@@ -23,7 +23,7 @@
 		5BB7F5362849A1EE008FF56B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB7F5352849A1EE008FF56B /* NetworkManager.swift */; };
 		5BC0FA13285AEF86007B3F42 /* MovieListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC0FA12285AEF86007B3F42 /* MovieListCoordinator.swift */; };
 		5BDA38422880F9DB008BB3D6 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA38412880F9DB008BB3D6 /* PersistenceManager.swift */; };
-		5BDA38442880FA59008BB3D6 /* PersistenceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA38432880FA59008BB3D6 /* PersistenceCoordinator.swift */; };
+		5BDA38442880FA59008BB3D6 /* FavouritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDA38432880FA59008BB3D6 /* FavouritesCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 		5BB7F5352849A1EE008FF56B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		5BC0FA12285AEF86007B3F42 /* MovieListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListCoordinator.swift; sourceTree = "<group>"; };
 		5BDA38412880F9DB008BB3D6 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
-		5BDA38432880FA59008BB3D6 /* PersistenceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceCoordinator.swift; sourceTree = "<group>"; };
+		5BDA38432880FA59008BB3D6 /* FavouritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			children = (
 				5BB7F52F2849A160008FF56B /* FavouritesListVC.swift */,
 				5BDA38412880F9DB008BB3D6 /* PersistenceManager.swift */,
-				5BDA38432880FA59008BB3D6 /* PersistenceCoordinator.swift */,
+				5BDA38432880FA59008BB3D6 /* FavouritesCoordinator.swift */,
 			);
 			path = Favourites;
 			sourceTree = "<group>";
@@ -194,7 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BDA38442880FA59008BB3D6 /* PersistenceCoordinator.swift in Sources */,
+				5BDA38442880FA59008BB3D6 /* FavouritesCoordinator.swift in Sources */,
 				5BB7F52C2849A0FC008FF56B /* SearchVC.swift in Sources */,
 				5BDA38422880F9DB008BB3D6 /* PersistenceManager.swift in Sources */,
 				5B1F8944283E3CCB00EDEE1E /* AppDelegate.swift in Sources */,

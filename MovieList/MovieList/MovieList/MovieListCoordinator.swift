@@ -52,7 +52,7 @@ extension MovieListCoordinator: MovieListVCDelegate {
     
     func didSelectRow(at: Int) {
         guard movies.count > at else { return }
-        let movieDetailVC = MovieDetailVC(movie: movies[at])
+        let movieDetailVC = MovieDetailVC(movie: movies[at], delegate: self)
         movieDetailVC.movieImage.image = movieImages[at]
         movieController.navigationController?.pushViewController(movieDetailVC, animated: true)
     }
@@ -77,5 +77,13 @@ extension MovieListCoordinator: MovieListVCDelegate {
             self.child.view.removeFromSuperview()
             self.child.removeFromParent()
         }
+    }
+}
+
+// MARK: - MovieDetailVCDelegate
+
+extension MovieListCoordinator: MovieDetailVCDelegate {
+    func addMovieToFavourites(movie: MovieResult) {
+        
     }
 }
