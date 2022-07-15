@@ -9,6 +9,11 @@ import UIKit
 import AVKit
 import AVFoundation
 
+protocol MovieDetailVCDelegate {
+    
+    func addMovieToFavourites(movie: MovieResult)
+}
+
 class MovieDetailVC: UIViewController {
     
     let movie: MovieResult
@@ -17,8 +22,11 @@ class MovieDetailVC: UIViewController {
     
     var playerView: UIView!
 
-    init(movie: MovieResult) {
+    var delegate: MovieDetailVCDelegate
+
+    init(movie: MovieResult, delegate: MovieDetailVCDelegate) {
         self.movie = movie
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -157,7 +165,11 @@ class MovieDetailVC: UIViewController {
     }()
     
     @objc func favouritesButtonTapped() {
-        // add the movie to favourites
+        let favouriteToBeAdded = self.movie
+        delegate.addMovieToFavourites(movie: favouriteToBeAdded)
+        DispatchQueue.main.async {
+            self.favouritesButton.setTitle("You've favourited this movie", for: .normal)
+        }
     }
     
     private func configureMovieDetails() {
