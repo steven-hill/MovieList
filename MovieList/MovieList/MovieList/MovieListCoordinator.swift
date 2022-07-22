@@ -11,6 +11,7 @@ class MovieListCoordinator {
 
     let userQueryString: String
     let networkManager = NetworkManager()
+    let persistenceManager = PersistenceManager()
 
     var movies: [MovieResult] = []
     var movieImages: [Int: UIImage] = [:]
@@ -83,7 +84,7 @@ extension MovieListCoordinator: MovieListVCDelegate {
 // MARK: - MovieDetailVCDelegate
 
 extension MovieListCoordinator: MovieDetailVCDelegate {
-    func addMovieToFavourites(movie: MovieResult) {
-        
+    func addMovieToFavourites(name: String) {
+        persistenceManager.addToFavourites(name: name)
     }
 }

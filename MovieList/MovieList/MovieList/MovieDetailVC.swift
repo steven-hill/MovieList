@@ -11,7 +11,7 @@ import AVFoundation
 
 protocol MovieDetailVCDelegate {
     
-    func addMovieToFavourites(movie: MovieResult)
+    func addMovieToFavourites(name: String)
 }
 
 class MovieDetailVC: UIViewController {
@@ -165,8 +165,8 @@ class MovieDetailVC: UIViewController {
     }()
     
     @objc func favouritesButtonTapped() {
-        let favouriteToBeAdded = self.movie
-        delegate.addMovieToFavourites(movie: favouriteToBeAdded)
+        let favouriteToBeAdded = self.movie.trackName
+        delegate.addMovieToFavourites(name: favouriteToBeAdded)
         DispatchQueue.main.async {
             self.favouritesButton.setTitle("You've favourited this movie", for: .normal)
         }
