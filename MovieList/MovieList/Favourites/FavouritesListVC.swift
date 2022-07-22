@@ -8,16 +8,18 @@
 import UIKit
 
 protocol FavouritesListVCDelegate {
-    var favourites: [MovieResult] { get set }
+    var favourites: [String] { get set }
     
     func loadFavourites()
     
-    func deleteMovieFromFavourites(movie: MovieResult)
+    func deleteMovieFromFavourites(name: String)
 }
 
 class FavouritesListVC: UIViewController {
    
     var delegate: FavouritesListVCDelegate!
+    
+    let reuseID = "FavouriteListCell"
 
     init(delegate: FavouritesListVCDelegate) {
         self.delegate = delegate
@@ -36,7 +38,8 @@ class FavouritesListVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         view.addSubview(tableView)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: MovieCell.reuseID)
+        tableView.rowHeight = 60
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseID)
         tableView.frame = view.bounds
         tableView.delegate = self
         tableView.dataSource = self
@@ -60,12 +63,10 @@ extension FavouritesListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MovieCell.reuseID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseID, for: indexPath)
         
         var content = cell.defaultContentConfiguration()
-
-        content.text = delegate.favourites[indexPath.row].trackName
-//        content.image = delegate.movieImages[indexPath.row] ?? UIImage(systemName: "photo")
+        content.text = delegate.favourites[indexPath.row]
         cell.contentConfiguration = content
         
         return cell
@@ -87,7 +88,7 @@ extension FavouritesListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            delegate.deleteMovieFromFavourites(movie: delegate.favourites[indexPath.row])
+            delegate.deleteMovieFromFavourites(name: delegate.favourites[indexPath.row])
             delegate.favourites.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

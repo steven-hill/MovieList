@@ -9,46 +9,48 @@ import Foundation
 
 class PersistenceManager {
     
-    static private let defaults = UserDefaults.standard
+    let defaults = UserDefaults.standard
     
     enum Keys {
         static let favourites = "favourites"
     }
     
-    var favourites: [MovieResult] = [] {
-        didSet {
+    var persistedFavourites = [String]()
+    
+    func getFavourites() -> [String] {
+        guard
+            let favouritedMovies = defaults.object(forKey: Keys.favourites) as? Data,
+            let favouritesArray = try? JSONDecoder().decode([String].self, from: favouritedMovies)
+        else { return [] }
+        self.persistedFavourites = favouritesArray
+        return self.persistedFavourites
+    }
+    
+    func addToFavourites(name: String) {
+        let newFavourite = name
+
+        var faveList: [String] = getFavourites()
+        if faveList.contains(newFavourite) {
+//        MARK:- TODO: tell the user the movie has already been favourited
+        } else {
+            faveList.append(newFavourite)
+            self.persistedFavourites = faveList
             save()
         }
     }
-    
-    func getFavourites() {
-        guard
-            let favouritedMovies = PersistenceManager.defaults.object(forKey: Keys.favourites) as? Data,
-            let favourites = try? JSONDecoder().decode([MovieResult].self, from: favouritedMovies)
-        else { return }
-        self.favourites = favourites
-    }
-    
-    func addToFavourites(movie: MovieResult) {
-        let newFavourite = MovieResult(trackName: movie.trackName, artworkUrl100: movie.artworkUrl100, primaryGenreName: movie.primaryGenreName, longDescription: movie.longDescription, releaseDate: movie.releaseDate, previewUrl: movie.previewUrl)
-        
-        guard !favourites.contains(where: { movie in
-            favourites.append(newFavourite)
-            return true
-        }) else { return }
-    }
-    
-    func deleteFromFavourites(movie: MovieResult) {
-        favourites.removeAll { $0.trackName == movie.trackName }
+
+    func deleteFromFavourites(name: String) {
+        persistedFavourites.removeAll { $0 == name }
+        save()
     }
     
     func save() {
         do {
             let encoder = JSONEncoder()
-            let encodedFavourites = try encoder.encode(favourites)
-            PersistenceManager.defaults.set(encodedFavourites, forKey: Keys.favourites)
+            let encodedFavourites = try encoder.encode(persistedFavourites)
+            defaults.set(encodedFavourites, forKey: Keys.favourites)
         } catch {
-            // deal with the error
+//        MARK:- TODO: tell the user there was an error saving the list
         }
     }
 }
