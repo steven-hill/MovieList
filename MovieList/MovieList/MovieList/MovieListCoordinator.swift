@@ -33,7 +33,6 @@ extension MovieListCoordinator: MovieListVCDelegate {
 
                 case .failure(_):
                 self.movieController.networkCallAlert()
-                    break
             }
         }
     }
