@@ -85,6 +85,6 @@ extension MovieListCoordinator: MovieListVCDelegate {
 
 extension MovieListCoordinator: MovieDetailVCDelegate {
     func addMovieToFavourites(name: String) {
-        persistenceManager.addToFavourites(name: name)
+        persistenceManager.saveMovieNameToFavourites(newMovie: name)
     }
 }
