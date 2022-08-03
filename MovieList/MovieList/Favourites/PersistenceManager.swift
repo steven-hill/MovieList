@@ -26,8 +26,8 @@ class PersistenceManager {
         return self.persistedFavourites
     }
     
-    func addToFavourites(name: String) {
-        let newFavourite = name
+    func saveMovieNameToFavourites(newMovie: String) {
+        let newFavourite = newMovie
 
         var faveList: [String] = getFavourites()
         if faveList.contains(newFavourite) {
