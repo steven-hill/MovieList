@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import UIKit
 
 class FavouritesCoordinator {
     
-    var favourites: [MovieResult] = []
+    var favourites: [String] = []
     let persistenceManager = PersistenceManager()
 
     init() {
@@ -18,19 +17,12 @@ class FavouritesCoordinator {
 }
 
 extension FavouritesCoordinator: FavouritesListVCDelegate {
-    
+
     func loadFavourites() {
-        persistenceManager.getFavourites()
+        favourites = persistenceManager.getFavourites()
     }
     
-    func deleteMovieFromFavourites(movie: MovieResult) {
-        persistenceManager.deleteFromFavourites(movie: movie)
-    }
-}
-    
-extension FavouritesCoordinator: MovieDetailVCDelegate {
-    
-    func addMovieToFavourites(movie: MovieResult) {
-        persistenceManager.addToFavourites(movie: movie)
+    func deleteMovieFromFavourites(name: String) {
+        persistenceManager.deleteFromFavourites(name: name)
     }
 }
