@@ -18,6 +18,8 @@ protocol MovieListVCDelegate {
 
     func didSelectRow(at: Int)
     
+    func returnToSearchVC()
+    
     func configureSpinnerView()
     
     func createSpinnerView()
@@ -67,6 +69,16 @@ class MovieListVC: UIViewController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.delegate.removeSpinnerView()
+        }
+    }
+    
+    func networkCallAlert() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: "An error occurred", message: "There was an error searching for that movie. Please try again.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+                self.delegate.returnToSearchVC()
+            }))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

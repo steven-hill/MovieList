@@ -33,8 +33,7 @@ extension MovieListCoordinator: MovieListVCDelegate {
                     self.movieController.updateUI()
 
                 case .failure(_):
-                    // TODO: pass alert back to MovieListVC.
-                    break
+                self.movieController.networkCallAlert()
             }
         }
     }
@@ -56,6 +55,10 @@ extension MovieListCoordinator: MovieListVCDelegate {
         let movieDetailVC = MovieDetailVC(movie: movies[at], delegate: self)
         movieDetailVC.movieImage.image = movieImages[at]
         movieController.navigationController?.pushViewController(movieDetailVC, animated: true)
+    }
+    
+    func returnToSearchVC() {
+        movieController.navigationController?.popToRootViewController(animated: true)
     }
     
     //MARK: - SpinnerView Methods
