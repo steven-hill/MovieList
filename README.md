@@ -11,5 +11,5 @@
 * This project really helped me to get practice with the protocol and delegate pattern, coordinators, MVC, and the single responsibility principle.
 
 
-![Search screen](https://github.com/steven-hill/MovieList/assets/98730693/74ee8ff0-544b-41a8-b4ff-435d8972c462)
+![Search screen](https://github.com/steven-hill/MovieList/assets/98730693/48e23009-162b-4969-806e-1fffefd4cd19)
 
