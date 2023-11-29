@@ -10,4 +10,6 @@
 * I chose UserDefaults for persistence of the favourites list as the memory space requirement is small.
 * This project really helped me to get practice with the protocol and delegate pattern, coordinators, MVC, and the single responsibility principle.
 
-![Search screen](https://github.com/steven-hill/MovieList/assets/98730693/7a7be2a7-28f4-4ad4-9f3c-936167abccc0)
+
+![Search screen](https://github.com/steven-hill/MovieList/assets/98730693/7a7be2a7-28f4-4ad4-9f3c-936167abccc0)  ![Seaerch results screen](https://github.com/steven-hill/MovieList/assets/98730693/ea84c8ac-6488-43f5-92a5-aa2ec0c603ca)
+
