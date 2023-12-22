@@ -3,7 +3,7 @@
 ## A UIKit project to search for movies using the iTunes API.
 
 ### 
-* This app uses UIKit and a wholly programmatic UI.
+* This app is written in Swift 5 and UIKit, and has a wholly programmatic UI.
 * Users can search for a movie using the name of the movie. The app uses the iTunes API to get results and display the data in a UITableView.
 * The user can tap on a result to see more information about that movie and watch the trailer via AVPlayer.
 * If the user is interested in watching the movie, they can add it to the favourites list (accessible via the tab bar).
