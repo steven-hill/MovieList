@@ -1,10 +1,10 @@
 # MovieList
 
-## A UIKit project to search for movies using the iTunes API.
+## A UIKit project to search for movies using the iTunes Search API.
 
 ### 
 * This app is written in Swift 5 and UIKit, and has a wholly programmatic UI.
-* Users can search for a movie using the name of the movie. The app uses the iTunes API to get results and display the data in a UITableView.
+* Users can search for a movie using the name of the movie. The app uses the [iTunes Search API](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html) to get results and display the data in a UITableView.
 * The user can tap on a result to see more information about that movie and watch the trailer via AVPlayer.
 * If the user is interested in watching the movie, they can add it to the favourites list (accessible via the tab bar).
 * I chose UserDefaults for persistence of the favourites list as the memory space requirement is small.
